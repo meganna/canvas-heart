@@ -4,23 +4,113 @@
 var canvas = document.getElementById('main');
 var context = canvas.getContext("2d");
 
+canvas.width  = 400;
+canvas.height = 300;
+
 context.strokeStyle = '#775D6A';
-context.fillStyle = '#F4828C';
-context.lineWidth = 4;
+context.fillStyle   = '#F4828C';
+context.lineWidth   = 4;
 
-var lineWidth = 1;
 var padding = 15;
+
 var quadHeight = (canvas.height - padding * 2) / 3;
-var quadWidth = (canvas.width - padding * 2) / 3;
+var quadWidth  = (canvas.width - padding * 2) / 3;
 
+var mainPoints = {
+	centerBottom : {
+		x: canvas.width/2,
+		y: canvas.height - padding,
+	},
+	controlCenterBottom : {
+		x: padding + 1.5*quadWidth,
+		y: canvas.height - padding - .5*quadHeight + 30
+	},
+	leftBottom: {
+		x: padding + quadWidth,
+		y: (canvas.height - padding)*5/6,
+	},
+	leftMiddleBottom: {
+		x: 1/6*(canvas.width - padding),
+		y: padding + quadHeight*2,
+	},
+	leftMiddle: {
+		x: padding,
+		y: padding + quadHeight,
+	},
+	controlLeftMiddle: {
+		x: padding,
+		y: padding + quadHeight*2 - 30,
+	},
+	leftTop: {
+		x: padding + quadWidth,
+		y: padding,
+	},
+	controlLeftTop: {
+		x: padding,
+		y: padding,
+	},
+	centerTop: {
+		x: canvas.width/2,
+		y: padding + quadHeight,
+	},
+	controlCenterTop: {
+		x: canvas.width/2,
+		y: padding + 10,
+	},
+	rightTop: {
+		x: padding + quadWidth * 2,
+		y: padding,
+	},
+	controlRightTop: {
+		x: canvas.width - padding,
+		y: padding,
+	},
+	rightMiddle: {
+		x: canvas.width - padding,
+		y: padding + quadHeight,
+	},
+	controlRightMiddle: {
+		x: canvas.width - padding,
+		y: padding + quadHeight*2 - 30,
+	},
+	rightMiddleBottom: {
+		x: 5/6 * (canvas.width + padding),
+		y: padding + quadHeight * 2,
+	},
+	rightBottom: {
+		x: canvas.width - (padding + quadWidth),
+		y: 5/6*(canvas.height - padding),
+	},
+
+};
+
+context.stroke();
+
+context.beginPath();
+
+context.moveTo(mainPoints.centerBottom.x, mainPoints.centerBottom.y);
+context.quadraticCurveTo(mainPoints.controlCenterBottom.x, mainPoints.controlCenterBottom.y, mainPoints.leftBottom.x, mainPoints.leftBottom.y);
+context.lineTo(mainPoints.leftMiddleBottom.x, mainPoints.leftMiddleBottom.y);
+context.quadraticCurveTo(mainPoints.controlLeftMiddle.x, mainPoints.controlLeftMiddle.y, mainPoints.leftMiddle.x, mainPoints.leftMiddle.y);
+context.quadraticCurveTo(mainPoints.controlLeftTop.x, mainPoints.controlLeftTop.y, mainPoints.leftTop.x, mainPoints.leftTop.y);
+context.quadraticCurveTo(mainPoints.controlCenterTop.x, mainPoints.controlCenterTop.y, mainPoints.centerTop.x, mainPoints.centerTop.y);
+context.quadraticCurveTo(mainPoints.controlCenterTop.x, mainPoints.controlCenterTop.y, mainPoints.rightTop.x, mainPoints.rightTop.y);
+context.quadraticCurveTo(mainPoints.controlRightTop.x, mainPoints.controlRightTop.y, mainPoints.rightMiddle.x, mainPoints.rightMiddle.y);
+context.quadraticCurveTo(mainPoints.controlRightMiddle.x, mainPoints.controlRightMiddle.y, mainPoints.rightMiddleBottom.x, mainPoints.rightMiddleBottom.y);
+context.lineTo(mainPoints.rightBottom.x, mainPoints.rightBottom.y);
+context.quadraticCurveTo(mainPoints.controlCenterBottom.x, mainPoints.controlCenterBottom.y, mainPoints.centerBottom.x, mainPoints.centerBottom.y);
+
+context.fill();
+context.stroke();
+
+// //GRID
 // context.beginPath();
-
+// context.strokeStyle = '#AAA';
 // //horizontal
 // context.moveTo(padding, padding + quadHeight);
 // context.lineTo(canvas.width - padding, padding + quadHeight);
 // context.moveTo(padding, padding + quadHeight * 2);
 // context.lineTo(canvas.width - padding, padding + quadHeight * 2);
-
 // //vertical
 // context.moveTo(padding + quadWidth, padding);
 // context.lineTo(padding + quadWidth, canvas.height - padding);
@@ -28,84 +118,3 @@ var quadWidth = (canvas.width - padding * 2) / 3;
 // context.lineTo(padding + quadWidth * 2, canvas.height - padding);
 
 // context.stroke();
-
-context.beginPath();
-
-//top center
-var controlPoint1 = {
-	x: canvas.width/2,
-	y: padding + 10,
-}
-
-//left middle
-var controlPoint2 = {
-	x: padding,
-	y: padding + quadHeight * 2 - 30,
-}
-
-var controlPoint3 = {
-	x: padding + 1.5*quadWidth,
-	y: canvas.height - padding - .5*quadHeight + 30
-}
-
-var point2 = {
-	x: 1/6 * (canvas.width - padding),
-	y: padding + quadHeight * 2,
-}
-
-var controlPoint4 = {
-	x: canvas.width - controlPoint2.x, 
-	y: controlPoint2.y,
-}
-
-var point3 = {
-	x: 5/6 * (canvas.width + padding),
-	y: padding + quadHeight * 2,
-}
-
-var centerPoint = {
-	x: canvas.width/2,
-	y: padding + 10,
-}
-
-//left-top part
-context.moveTo(padding, padding + quadHeight);
-context.quadraticCurveTo(padding, padding, padding + quadWidth, padding);
-
-//context.fillRect(controlPoint1.x, controlPoint1.y, 5, 5);
-//left-center part
-context.quadraticCurveTo(controlPoint1.x, controlPoint1.y, canvas.width/2, padding + quadHeight);
-
-//context.fillRect(point2.x, point2.y, 5, 5);
-
-//left-middle part
-context.moveTo(padding, padding + quadHeight);
-context.quadraticCurveTo(controlPoint2.x, controlPoint2.y, point2.x, point2.y);
-//left-bottom
-context.lineTo(padding + quadWidth,  5/6*(canvas.height - padding));
-//left-center
-context.quadraticCurveTo(controlPoint3.x, controlPoint3.y, canvas.width/2, canvas.height - padding);
-
-// context.fillRect(controlPoint2.x, controlPoint2.y,5,5);
-// context.fillRect(controlPoint3.x, controlPoint3.y, 5, 5);
-// context.fillRect(controlPoint4.x, controlPoint4.y, 5, 5);
-
-//right-top part
-context.moveTo(canvas.width - padding, padding + quadHeight);
-context.quadraticCurveTo(canvas.width - padding, padding, padding + quadWidth * 2, padding);
-//right-center part
-context.quadraticCurveTo(controlPoint1.x, controlPoint1.y, canvas.width/2, padding + quadHeight);
-//------------------
-
-//right-middle part
-context.moveTo(canvas.width - padding, padding + quadHeight);
-context.quadraticCurveTo(canvas.width - controlPoint2.x, controlPoint2.y, point3.x, point3.y);
-//right-bottom
-context.lineTo(canvas.width - (padding + quadWidth),  5/6*(canvas.height - padding));
-//right-center
-context.quadraticCurveTo(controlPoint3.x, controlPoint3.y, canvas.width/2, canvas.height - padding);
-
-//context.fillRect(point3.x, point3.y, 5, 5);
-
-context.fill();
-context.stroke();
